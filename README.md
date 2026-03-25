@@ -22,6 +22,23 @@ See [contracts/](/contracts/) for sources.
 ./scripts/deploy_testnet.sh
 ```
 
+## Frontend - Atomic IP Marketplace (Issue #34 + #89)
+
+Full buyer UI:
+
+### 1. Initiate Swap Flow
+1. Deploy contracts (`./scripts/deploy_testnet.sh`, note IDs in `.env`)
+2. Open `frontend/index.html`
+3. Browse listings (demo data; real: query ip_registry.list_by_owner)
+4. Click "Initiate Swap" → enter USDC amount
+5. Approve USDC spend → Initiate (stubs; extend Freighter + full RPC XDR)
+6. Note swap_id for key reveal
+
+### 2. Key Reveal (post-swap)
+Input atomic_swap ID + swap_id → fetch status/key
+
+**Note:** Vanilla JS + Stellar SDK CDN. Stubs for RPC/wallet. Update CONTRACT_IDS in app.js with deployed IDs.
+
 ## Security
 [SECURITY.md](./SECURITY.md)
 
@@ -31,3 +48,4 @@ TBD (add LICENSE file if needed).
 ---
 
 *Workspace using Soroban SDK v22.0.0*
+
