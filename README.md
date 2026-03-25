@@ -43,7 +43,7 @@ Input atomic_swap ID + swap_id → fetch status/key
 [SECURITY.md](./SECURITY.md)
 
 ## License
-TBD (add LICENSE file if needed).
+MIT — see [LICENSE](./LICENSE).
 
 ---
 
