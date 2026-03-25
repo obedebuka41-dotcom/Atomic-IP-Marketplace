@@ -19,10 +19,10 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "u64": "2"
+                  "u64": "1"
                 },
                 {
-                  "bytes": "2e5e04073a2176c41ba2b74e09f8cea1170db7b404475cd5fcfa5e1d555982ef"
+                  "bytes": "2563d6a847987c6d78c9b0f75dd9249441d5d7c77bf5e1981e93868de82438d4"
                 }
               ]
             }
@@ -30,9 +30,7 @@
           "sub_invocations": []
         }
       ]
-    ],
-    [],
-    []
+    ]
   ],
   "ledger": {
     "protocol_version": 25,
@@ -57,13 +55,13 @@
                     "symbol": "MerkleRoot"
                   },
                   {
-                    "u64": "2"
+                    "u64": "1"
                   }
                 ]
               },
               "durability": "persistent",
               "val": {
-                "bytes": "2e5e04073a2176c41ba2b74e09f8cea1170db7b404475cd5fcfa5e1d555982ef"
+                "bytes": "2563d6a847987c6d78c9b0f75dd9249441d5d7c77bf5e1981e93868de82438d4"
               }
             }
           },
@@ -84,7 +82,7 @@
                     "symbol": "Owner"
                   },
                   {
-                    "u64": "2"
+                    "u64": "1"
                   }
                 ]
               },
@@ -167,20 +165,23 @@
           "v0": {
             "topics": [
               {
-                "symbol": "proof_verified"
+                "symbol": "merkle_root_set"
               },
               {
-                "u64": "2"
+                "u64": "1"
+              },
+              {
+                "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
               }
             ],
             "data": {
               "map": [
                 {
                   "key": {
-                    "symbol": "result"
+                    "symbol": "root"
                   },
                   "val": {
-                    "bool": true
+                    "bytes": "2563d6a847987c6d78c9b0f75dd9249441d5d7c77bf5e1981e93868de82438d4"
                   }
                 }
               ]
