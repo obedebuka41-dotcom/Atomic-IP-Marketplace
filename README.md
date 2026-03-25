@@ -1,5 +1,7 @@
 # Atomic IP Marketplace
 
+[![CI](https://github.com/unixfundz/Atomic-IP-Marketplace/actions/workflows/ci.yml/badge.svg)](https://github.com/unixfundz/Atomic-IP-Marketplace/actions/workflows/ci.yml)
+
 Soroban smart contracts for atomic IP swaps using USDC, IP registry, and ZK verification.
 
 ## Overview
