@@ -173,79 +173,13 @@ decryptResult.style.color = 'green';
    `).join('');
  }
 
- // Modal handlers
+ // Delegate swap initiation to the React InitiateSwapModal via custom event
  window.openSwapModal = function(listing) {
-   selectedListing = listing;
-   listingDetails.innerHTML = `
-     <h3>Listing #${listing.id}</h3>
-     <p><strong>Seller:</strong> ${listing.seller}</p>
-     <p><strong>IPFS:</strong> ${listing.ipfs}</p>
-     <p><strong>Merkle Root:</strong> ${listing.merkle.slice(0,20)}...</p>
-   `;
-   approvedAmount = 0;
-   updateButtons();
-   initiateModal.classList.remove('hidden');
+   window.dispatchEvent(new CustomEvent('open-initiate-swap', { detail: listing }));
  };
 
- closeModal.onclick = () => initiateModal.classList.add('hidden');
- window.onclick = (e) => {
-   if (e.target === initiateModal) initiateModal.classList.add('hidden');
- };
-
- function updateButtons() {
-   const amount = parseFloat(usdcAmountInput.value) || 0;
-   approveBtn.disabled = amount <= 0 || approvedAmount >= amount;
-   initiateBtn.disabled = amount <= 0 || approvedAmount < amount;
- }
-
- usdcAmountInput.oninput = updateButtons;
-
- // Stub approve & initiate (add Freighter signer for real)
- async function approveUSDC() {
-   const amount = parseFloat(usdcAmountInput.value);
-   approveBtn.disabled = true;
-   txResult.textContent = 'Approving USDC...';
-   txResult.className = '';
-   try {
-     // Real: window.freighter-api or signer.submitTransaction with token.approve(contract, amount)
-     // Demo stub
-     await new Promise(r => setTimeout(r, 2000));
-     approvedAmount = amount;
-     txResult.textContent = `Approved ${amount} USDC`;
-     txResult.className = 'success';
-     updateButtons();
-   } catch (e) {
-     txResult.textContent = `Approve failed: ${e.message}`;
-     txResult.className = 'error';
-     approveBtn.disabled = false;
-   }
- }
-
- async function initiateSwap() {
-   const amount = parseFloat(usdcAmountInput.value);
-   initiateBtn.disabled = true;
-   txResult.textContent = 'Initiating swap...';
-   txResult.className = '';
-   try {
-     const { Server } = await loadSDK();
-     const server = new Server(RPC_URL);
-     // Real: build XDR for invoke initiate_swap(listing_id u64, buyer Addr, seller Addr, usdc Addr, amount i128, zk Addr, ip_reg Addr)
-     // Demo: stub success swap_id
-     await new Promise(r => setTimeout(r, 3000));
-     const swapId = Date.now() % 10000; // Random demo ID
-     txResult.innerHTML = `Success! Swap ID: <strong>${swapId}</strong><br>Check key reveal section.`;
-     txResult.className = 'success';
-     initiateModal.classList.add('hidden');
-     fetchListings(); // Refresh
-   } catch (e) {
-     txResult.textContent = `Initiate failed: ${e.message}`;
-     txResult.className = 'error';
-     initiateBtn.disabled = false;
-   }
- }
-
- approveBtn.onclick = approveUSDC;
- initiateBtn.onclick = initiateSwap;
+ // Refresh listings when a swap is successfully initiated
+ window.addEventListener('swap-initiated', () => fetchListings());
 
  // Init
  document.addEventListener('DOMContentLoaded', () => {

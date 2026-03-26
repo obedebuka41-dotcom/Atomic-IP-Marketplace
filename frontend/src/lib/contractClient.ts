@@ -255,3 +255,104 @@ async function submitAndPoll(
     throw new Error(`Transaction did not succeed: ${txResponse.status}`);
   }
 }
+
+// ─── Initiate Swap ────────────────────────────────────────────────────────────
+
+type WalletSigner = { address: string; signTransaction: (xdr: string) => Promise<string> };
+
+/**
+ * Calls approve on the USDC SAC token so the atomic_swap contract can
+ * transfer `amount` (in stroops / smallest unit) from the buyer.
+ */
+export async function approveUsdc(
+  usdcContractId: string,
+  spender: string,
+  amount: bigint,
+  wallet: WalletSigner
+): Promise<void> {
+  const server = new StellarSdk.SorobanRpc.Server(RPC_URL);
+  const sourceAccount = await server.getAccount(wallet.address);
+  const token = new StellarSdk.Contract(usdcContractId);
+
+  // SAC approve(from, spender, amount, expiration_ledger)
+  // Use a far-future ledger so it doesn't expire mid-flow
+  const latest = await server.getLatestLedger();
+  const expirationLedger = latest.sequence + 500;
+
+  const tx = new StellarSdk.TransactionBuilder(sourceAccount, {
+    fee: StellarSdk.BASE_FEE,
+    networkPassphrase: networkPassphrase(),
+  })
+    .addOperation(
+      token.call(
+        "approve",
+        StellarSdk.nativeToScVal(new StellarSdk.Address(wallet.address), { type: "address" }),
+        StellarSdk.nativeToScVal(new StellarSdk.Address(spender), { type: "address" }),
+        StellarSdk.nativeToScVal(amount, { type: "i128" }),
+        StellarSdk.nativeToScVal(expirationLedger, { type: "u32" })
+      )
+    )
+    .setTimeout(30)
+    .build();
+
+  await submitAndPoll(tx, wallet, server);
+}
+
+/**
+ * Calls initiate_swap on the atomic_swap contract.
+ * Returns the new swap_id (u64 as number).
+ */
+export async function initiateSwap(
+  listingId: number,
+  seller: string,
+  usdcContractId: string,
+  usdcAmount: bigint,
+  zkVerifierContractId: string,
+  wallet: WalletSigner
+): Promise<number> {
+  if (!ATOMIC_SWAP_CONTRACT_ID) throw new Error("VITE_CONTRACT_ATOMIC_SWAP is not configured.");
+  if (!IP_REGISTRY_CONTRACT_ID) throw new Error("VITE_CONTRACT_IP_REGISTRY is not configured.");
+
+  const server = new StellarSdk.SorobanRpc.Server(RPC_URL);
+  const sourceAccount = await server.getAccount(wallet.address);
+  const contract = new StellarSdk.Contract(ATOMIC_SWAP_CONTRACT_ID);
+
+  const tx = new StellarSdk.TransactionBuilder(sourceAccount, {
+    fee: StellarSdk.BASE_FEE,
+    networkPassphrase: networkPassphrase(),
+  })
+    .addOperation(
+      contract.call(
+        "initiate_swap",
+        StellarSdk.nativeToScVal(listingId, { type: "u64" }),
+        StellarSdk.nativeToScVal(new StellarSdk.Address(wallet.address), { type: "address" }),
+        StellarSdk.nativeToScVal(new StellarSdk.Address(seller), { type: "address" }),
+        StellarSdk.nativeToScVal(new StellarSdk.Address(usdcContractId), { type: "address" }),
+        StellarSdk.nativeToScVal(usdcAmount, { type: "i128" }),
+        StellarSdk.nativeToScVal(new StellarSdk.Address(zkVerifierContractId), { type: "address" }),
+        StellarSdk.nativeToScVal(new StellarSdk.Address(IP_REGISTRY_CONTRACT_ID), { type: "address" })
+      )
+    )
+    .setTimeout(30)
+    .build();
+
+  const preparedTx = await server.prepareTransaction(tx);
+  const signedXdr = await wallet.signTransaction(preparedTx.toXDR());
+  const signedTx = StellarSdk.TransactionBuilder.fromXDR(signedXdr, networkPassphrase());
+
+  const sendResult = await server.sendTransaction(signedTx);
+  if (sendResult.status === "ERROR") throw new Error(`Transaction failed: ${sendResult.errorResult}`);
+
+  let txResponse = await server.getTransaction(sendResult.hash);
+  while (txResponse.status === "NOT_FOUND") {
+    await new Promise((r) => setTimeout(r, 1500));
+    txResponse = await server.getTransaction(sendResult.hash);
+  }
+
+  if (txResponse.status !== "SUCCESS") throw new Error(`Transaction did not succeed: ${txResponse.status}`);
+
+  // Return value is u64 swap_id
+  const retval = (txResponse as StellarSdk.SorobanRpc.Api.GetSuccessfulTransactionResponse).returnValue;
+  if (!retval) throw new Error("No return value from initiate_swap");
+  return Number(StellarSdk.scValToNative(retval));
+}

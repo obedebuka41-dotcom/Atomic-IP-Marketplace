@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_CONTRACT_ATOMIC_SWAP: string;
   readonly VITE_CONTRACT_IP_REGISTRY: string;
   readonly VITE_CONTRACT_ZK_VERIFIER: string;
+  readonly VITE_CONTRACT_USDC: string;
 }
 
 interface ImportMeta {
