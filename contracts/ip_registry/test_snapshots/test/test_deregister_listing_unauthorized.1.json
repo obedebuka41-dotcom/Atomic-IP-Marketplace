@@ -1,6 +1,6 @@
 {
   "generators": {
-    "address": 2,
+    "address": 3,
     "nonce": 0,
     "mux_id": 0
   },
@@ -19,10 +19,10 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "bytes": "516d5465737448617368"
+                  "bytes": "516d48617368"
                 },
                 {
-                  "bytes": "6d65726b6c655f726f6f74"
+                  "bytes": "726f6f74"
                 },
                 {
                   "u32": 0
@@ -31,7 +31,7 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4"
                 },
                 {
-                  "i128": "1000"
+                  "i128": "0"
                 }
               ]
             }
@@ -40,6 +40,7 @@
         }
       ]
     ],
+    [],
     []
   ],
   "ledger": {
@@ -101,7 +102,7 @@
                       "symbol": "ipfs_hash"
                     },
                     "val": {
-                      "bytes": "516d5465737448617368"
+                      "bytes": "516d48617368"
                     }
                   },
                   {
@@ -109,7 +110,7 @@
                       "symbol": "merkle_root"
                     },
                     "val": {
-                      "bytes": "6d65726b6c655f726f6f74"
+                      "bytes": "726f6f74"
                     }
                   },
                   {
@@ -125,7 +126,7 @@
                       "symbol": "price_usdc"
                     },
                     "val": {
-                      "i128": "1000"
+                      "i128": "0"
                     }
                   },
                   {

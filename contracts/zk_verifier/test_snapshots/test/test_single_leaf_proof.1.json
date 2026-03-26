@@ -22,7 +22,7 @@
                   "u64": "1"
                 },
                 {
-                  "bytes": "2563d6a847987c6d78c9b0f75dd9249441d5d7c77bf5e1981e93868de82438d4"
+                  "bytes": "69cc13ed65279504b4529dc30c3cf2a0f7b9756beb74db1ce4ccebbb1d5c2cae"
                 }
               ]
             }
@@ -62,7 +62,7 @@
               },
               "durability": "persistent",
               "val": {
-                "bytes": "2563d6a847987c6d78c9b0f75dd9249441d5d7c77bf5e1981e93868de82438d4"
+                "bytes": "69cc13ed65279504b4529dc30c3cf2a0f7b9756beb74db1ce4ccebbb1d5c2cae"
               }
             }
           },
@@ -156,38 +156,5 @@
       }
     ]
   },
-  "events": [
-    {
-      "event": {
-        "ext": "v0",
-        "contract_id": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM",
-        "type_": "contract",
-        "body": {
-          "v0": {
-            "topics": [
-              {
-                "symbol": "proof_verified"
-              },
-              {
-                "u64": "1"
-              }
-            ],
-            "data": {
-              "map": [
-                {
-                  "key": {
-                    "symbol": "result"
-                  },
-                  "val": {
-                    "bool": true
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "failed_call": false
-    }
-  ]
+  "events": []
 }
