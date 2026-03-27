@@ -1,6 +1,5 @@
 /target
 .env
-test_snapshots/
 build_error.txt
 build_output.txt
 *.wasm
@@ -22,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 .env.local
 .env.*.local
+contracts/*/test_snapshots/

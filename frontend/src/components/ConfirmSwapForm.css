@@ -1,0 +1,105 @@
+.confirm-swap-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.confirm-swap-form__meta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #718096;
+}
+
+.confirm-swap-form__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.confirm-swap-form__input {
+  padding: 8px 10px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: monospace;
+  color: #2d3748;
+  background: #f7fafc;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.confirm-swap-form__input:focus {
+  outline: none;
+  border-color: #4299e1;
+  background: #fff;
+}
+
+.confirm-swap-form__input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Submit button */
+.confirm-swap-form__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #38a169;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  min-width: 160px;
+  align-self: flex-start;
+}
+
+.confirm-swap-form__btn:hover:not(:disabled) {
+  background-color: #2f855a;
+}
+
+.confirm-swap-form__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner (reuses same pattern as cancel) */
+.confirm-swap-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: confirm-swap-spin 0.7s linear infinite;
+}
+
+@keyframes confirm-swap-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error */
+.confirm-swap-form__error {
+  font-size: 13px;
+  color: #e53e3e;
+  margin: 0;
+}
+
+/* Updated balance after confirmation */
+.confirm-swap-form__balance {
+  font-size: 13px;
+  color: #276749;
+  background: #f0fff4;
+  border: 1px solid #9ae6b4;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0;
+}

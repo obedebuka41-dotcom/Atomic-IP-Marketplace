@@ -1,0 +1,52 @@
+.swap-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.swap-card__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.swap-card__id {
+  font-weight: 600;
+  font-size: 14px;
+  color: #2d3748;
+}
+
+.swap-card__amount {
+  font-size: 14px;
+  color: #4a5568;
+}
+
+/* Status badge */
+.swap-card__status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.swap-card__status[data-status="Pending"] {
+  background: #ebf8ff;
+  color: #2b6cb0;
+}
+
+.swap-card__status[data-status="Completed"] {
+  background: #f0fff4;
+  color: #276749;
+}
+
+.swap-card__status[data-status="Cancelled"] {
+  background: #fff5f5;
+  color: #c53030;
+}
